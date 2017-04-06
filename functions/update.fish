@@ -92,7 +92,7 @@ function update -d "update your mac"
             sudo yum upgrade
         end
 
-        if command -v apt > /dev/null;
+        if command -v apt > /dev/null; and [ (uname) = "Linux" ];
             echo "♢ Updating Debian based system"
             sudo apt update
             sudo apt upgrade
