@@ -1,1 +1,1 @@
-complete -c update -d "update your mac"
+complete -c update -d "Update OS and packages"

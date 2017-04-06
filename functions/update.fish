@@ -1,4 +1,4 @@
-function update -d "update your mac"
+function update -d "Update OS and packages"
     set -l system false
     set -l mas false # brew install mas #mas upgrade
     set -l brew false

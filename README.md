@@ -1,16 +1,16 @@
-# macUpdate
+# update
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack Room][slack-badge]][slack-link]
 
-update your mac
+Update OS and packages
 
 ## Install
 
 With [fisherman]
 
 ```
-fisher publicarray/mac-update
+fisher publicarray/update
 ```
 
 ## Usage
@@ -19,8 +19,12 @@ fisher publicarray/mac-update
 update [system|mas|brew|npm|yarn|pip|composer|apm|gem|dotfiles|all|packages] [--help]
 ```
 
-[travis-link]: https://travis-ci.org/publicarray/macUpdate
-[travis-badge]: https://img.shields.io/travis/publicarray/macUpdate.svg
+** `update` is too long for you? **
+
+`up` is an alias to `update`
+
+[travis-link]: https://travis-ci.org/publicarray/update
+[travis-badge]: https://img.shields.io/travis/publicarray/update.svg
 [slack-link]: https://fisherman-wharf.herokuapp.com
 [slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
 [fisherman]: https://github.com/fisherman/fisherman
