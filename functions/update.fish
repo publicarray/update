@@ -87,7 +87,7 @@ function update -d "update your mac"
             sudo dnf upgrade
         end
 
-        if command -v yum > /dev/null and not command -v dnf > /dev/null;
+        if command -v yum > /dev/null; and not command -v dnf > /dev/null;
             echo "♢ Updating RedHat based system"
             sudo yum upgrade
         end
@@ -98,7 +98,7 @@ function update -d "update your mac"
             sudo apt upgrade
         end
 
-        if command -v apt-get > /dev/null and not command -v apt > /dev/null;
+        if command -v apt-get > /dev/null; and not command -v apt > /dev/null;
             echo "♢ Updating Debian based system"
             sudo apt-get update
             sudo apt-get upgrade
