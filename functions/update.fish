@@ -173,14 +173,18 @@ function update -d "update your mac"
     end
 
     if eval $dotfiles
-        echo "♢ Updating dotfiles"
-        git -C ~/.dotfiles stash
-        git -C ~/.dotfiles pull origin master
-        git -C ~/.dotfiles stash pop
-        git -C ~/.dotfiles submodule foreach git pull origin master
-        echo "♢ Updating the Prezto framework"
-        git -C ~/.zprezto pull origin master
-        git -C ~/.zprezto submodule foreach git pull origin master
+        if test -d ~/.dotfiles
+            echo "♢ Updating dotfiles"
+            git -C ~/.dotfiles stash
+            git -C ~/.dotfiles pull origin master
+            git -C ~/.dotfiles stash pop
+            git -C ~/.dotfiles submodule foreach git pull origin master
+        end
+        if test -d ~/.zprezto
+            echo "♢ Updating the Prezto framework"
+            git -C ~/.zprezto pull origin master
+            git -C ~/.zprezto submodule foreach git pull origin master
+        end
     end
 end
 
