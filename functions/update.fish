@@ -76,9 +76,33 @@ function update -d "update your mac"
         end
     end
 
-    if eval $system; and command -v softwareupdate > /dev/null;
-        echo "♢ Updating macOS"
-        sudo softwareupdate -ia
+    if eval $system;
+        if command -v softwareupdate > /dev/null;
+            echo "♢ Updating macOS"
+            sudo softwareupdate -ia
+        end
+
+        if command -v dnf > /dev/null;
+            echo "♢ Updating RedHat based system"
+            sudo dnf upgrade
+        end
+
+        if command -v yum > /dev/null and not command -v dnf > /dev/null;
+            echo "♢ Updating RedHat based system"
+            sudo yum upgrade
+        end
+
+        if command -v apt > /dev/null;
+            echo "♢ Updating Debian based system"
+            sudo apt update
+            sudo apt upgrade
+        end
+
+        if command -v apt-get > /dev/null and not command -v apt > /dev/null;
+            echo "♢ Updating Debian based system"
+            sudo apt-get update
+            sudo apt-get upgrade
+        end
     end
 
     if eval $mas; and command -v mas > /dev/null;
