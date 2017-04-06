@@ -188,8 +188,6 @@ function update -d "Update OS and packages"
     end
 end
 
-alias up=update
-
 function __update_usage
     echo "Usage: update [options]"
     echo "    [system|mas|brew|npm|yarn|pip|composer|apm|gem|fish|dotfiles|all|packages] [--help]"
