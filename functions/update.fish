@@ -10,6 +10,11 @@ function update -d "update your mac"
     set -l gem false
     set -l fishpkg false
     set -l dotfiles false
+    set -l sudo false
+
+    if test (id -u) = 0
+        set -l sudo true
+    end
 
     if test -z "$argv"
       __update_usage
@@ -77,7 +82,7 @@ function update -d "update your mac"
     end
 
     if eval $system;
-        if command -v softwareupdate > /dev/null;
+        if command -v softwareupdate > /dev/null; and test (uname) = "Darwin";
             echo "♢ Updating macOS"
             sudo softwareupdate -ia
         end
@@ -92,7 +97,7 @@ function update -d "update your mac"
             sudo yum upgrade
         end
 
-        if command -v apt > /dev/null; and [ (uname) = "Linux" ];
+        if command -v apt > /dev/null; and test (uname) = "Linux";
             echo "♢ Updating Debian based system"
             sudo apt update
             sudo apt upgrade
@@ -178,6 +183,8 @@ function update -d "update your mac"
         git -C ~/.zprezto submodule foreach git pull origin master
     end
 end
+
+alias up=update
 
 function __update_usage
     echo "Usage: update [options]"
