@@ -127,10 +127,19 @@ function update -d "update your mac"
         apm upgrade --no-confirm
     end
 
+    if eval $gem; and command -v gem > /dev/null;
+        echo "♢ Updating Ruby packages"
+        gem update
+    end
+
     if eval $fishpkg; and command -v fish > /dev/null
         echo "♢ Updating Fish packages"
         if functions | grep fisher > /dev/null;
             fisher up
+        end
+
+        if functions | grep omf > /dev/null;
+            omf update
         end
     end
 
@@ -148,5 +157,5 @@ end
 
 function __update_usage
     echo "Usage: update [options]"
-    echo "    [system|mas|brew|npm|yarn|pip|composer|apm|gem|dotfiles|all|packages] [--help]"
+    echo "    [system|mas|brew|npm|yarn|pip|composer|apm|gem|fish|dotfiles|all|packages] [--help]"
 end
