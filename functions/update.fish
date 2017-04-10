@@ -47,28 +47,28 @@ end
 alias __update_help __update_usage
 
 function __update_system
-    if command -v softwareupdate > /dev/null; and test (uname) = "Darwin";
+    if command -sq softwareupdate; and test (uname) = "Darwin";
         echo "♢ Updating macOS"
         sudo softwareupdate -ia
     end
 
-    if command -v dnf > /dev/null;
+    if command -sq dnf;
         echo "♢ Updating RedHat based system"
         sudo dnf upgrade
     end
 
-    if command -v yum > /dev/null; and not command -v dnf > /dev/null;
+    if command -sq yum; and not command -sq dnf;
         echo "♢ Updating RedHat based system"
         sudo yum upgrade
     end
 
-    if command -v apt > /dev/null; and test (uname) = "Linux";
+    if command -sq apt; and test (uname) = "Linux";
         echo "♢ Updating Debian based system"
         sudo apt update
         sudo apt upgrade
     end
 
-    if command -v apt-get > /dev/null; and not command -v apt > /dev/null;
+    if command -sq apt-get; and not command -sq apt;
         echo "♢ Updating Debian based system"
         sudo apt-get update
         sudo apt-get upgrade
@@ -77,7 +77,7 @@ end
 alias __update_os __update_system
 
 function __update_mas
-    if command -v mas > /dev/null;
+    if command -sq mas;
         echo "♢ Updating Apps from App Store"
         mas upgrade
     end
@@ -85,7 +85,7 @@ end
 alias __update_mac-apps __update_mas
 
 function __update_brew
-    if command -v brew > /dev/null;
+    if command -sq brew;
         echo "♢ Updating Homebrew"
         brew update
         brew upgrade
@@ -96,27 +96,27 @@ function __update_brew
 end
 
 function __update_npm
-    if command -v brew > /dev/null;
+    if command -sq npm;
         echo "♢ Updating npm packages"
         npm update -g
     end
 end
 
 function __update_yarn
-    if command -v yarn > /dev/null;
+    if command -sq yarn;
         echo "♢ Updating yarn packages"
         yarn global update
     end
 end
 
 function __update_pip
-    if command -v pip > /dev/null;
+    if command -sq pip;
         echo "♢ Updating 2.x packages"
         python -V
         pip -V
         pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
     end
-    if command -v pip3 > /dev/null;
+    if command -sq pip3;
         echo "♢ Updating" (python3 -V) "packages"
         pip3 -V
         pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U
@@ -125,7 +125,7 @@ end
 alias __update_python __update_pip
 
 function __update_composer
-    if command -v composer > /dev/null;
+    if command -sq composer;
         echo "♢ Updating PHP packages"
         composer global update
     end
@@ -133,7 +133,7 @@ end
 alias __update_php __update_composer
 
 function __update_apm
-    if command -v apm > /dev/null;
+    if command -sq apm;
         echo "♢ Updating Atom packages"
         apm upgrade --no-confirm
     end
@@ -141,7 +141,7 @@ end
 alias __update_atom __update_apm
 
 function __update_gem
-    if command -v gem > /dev/null;
+    if command -sq gem;
         echo "♢ Updating Ruby packages"
         gem update
     end
@@ -149,13 +149,13 @@ end
 alias __update_ruby __update_gem
 
 function __update_fish
-    if command -v fish > /dev/null
+    if command -sq fish;
         echo "♢ Updating Fish packages"
-        if functions | grep fisher > /dev/null;
+        if  type -q fisher;
             fisher up
         end
 
-        if functions | grep omf > /dev/null;
+        if type -q omf;
             omf update
         end
     end
