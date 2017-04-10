@@ -32,9 +32,10 @@ end
 function __update_usage
     printf "Usage: update/up [commands]\n\n"
     echo "Commands:"
-    printf "   %s" $argv[1]
     for x in (seq (count $argv));
-        if test (math $x%9) -eq 0
+        if test $x -eq 1
+            printf "   %s" $argv[1]
+        else if test (math $x%9) -eq 0
             printf ",\n   "
             printf "%s" $argv[$x]
         else
