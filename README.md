@@ -16,10 +16,10 @@ fisher publicarray/update
 ## Usage
 
 ```fish
-update [system|mas|brew|npm|yarn|pip|composer|apm|gem|dotfiles|all|packages] [--help]
+update [help|system|mas|brew|npm|yarn|pip|composer|apm|gem|fish|dotfiles|all|packages]
 ```
 
-** `update` is too long for you? **
+**`update` is too long for you?**
 
 `up` is an alias to `update`
 
