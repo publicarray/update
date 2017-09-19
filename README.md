@@ -23,8 +23,13 @@ update [help|system|mas|brew|npm|yarn|pip|composer|apm|gem|fish|dotfiles|all|pac
 
 `up` is an alias to `update`
 
+## Example
+
+![demo](demo.gif)
+
 [travis-link]: https://travis-ci.org/publicarray/update
 [travis-badge]: https://img.shields.io/travis/publicarray/update.svg
 [slack-link]: https://fisherman-wharf.herokuapp.com
 [slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
 [fisherman]: https://github.com/fisherman/fisherman
+
