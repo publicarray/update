@@ -1,6 +1,7 @@
 function update -d "Update OS and packages"
     set -l update_cmds system os mas mac-apps brew npm yarn pip python composer php apm atom gem ruby fish \
         dotfiles all packages usage help
+    set -g __update_interactive 0
 
     if test -z "$argv"
         __update_usage $update_cmds
@@ -9,6 +10,11 @@ function update -d "Update OS and packages"
 
     for arg in $argv # iterate over the arguments
         set -l match 0
+
+        if test $arg = '-i'
+            set __update_interactive 1
+            set match 1
+        end
 
         for cmd in $update_cmds # iterate over the commands
             if test $arg = $cmd # search if the argument matches a command
@@ -40,72 +46,85 @@ function __update_usage
 end
 alias __update_help __update_usage
 
-function __update_needs_root
-    if test (id -u) -eq 0
-        eval $argv
-    else if  command -sq sudo
-        sudo $argv
+# wrapper for -y and sudo
+function __update_eval_wrapper -a interactive_cmd non_interactive_cmd sudo
+    # interactive and command exists or non-interactive does not exist
+    if test -n $interactive_cmd; and test $__update_interactive -eq 1; or test -z $non_interactive_cmd
+        # no sudo request or already root
+        if test (count $sudo) -lt 1; or test $sudo -eq 0; or test (id -u) -eq 0
+            eval $interactive_cmd
+        else if command -sq sudo
+            sudo $interactive_cmd
+        else
+            printf "Command 'sudo' not found. Failed to execute 'sudo %s'" $argv
+        end
     else
-        printf "Command 'sudo' not found. Failed to execute 'sudo %s'" $argv
-        return 1
+        if test (count $sudo) -lt 1; or test $sudo -eq 0; or test (id -u) -eq 0
+            eval $non_interactive_cmd
+        else if command -sq sudo
+            sudo $non_interactive_cmd
+        else
+            printf "Command 'sudo' not found. Failed to execute 'sudo %s'" $argv
+        end
     end
 end
 
 function __update_system
     if command -sq softwareupdate; and test (uname) = "Darwin";
         echo "♢ Updating macOS"
-        __update_needs_root softwareupdate -ia
+        __update_eval_wrapper "softwareupdate -ia" "" 1
     end
 
     if command -sq dnf;
         echo "♢ Updating RedHat based system"
-        __update_needs_root dnf -y upgrade
+        __update_eval_wrapper "dnf upgrade" "dnf -y upgrade" 1
     end
 
     if command -sq yum; and not command -sq dnf;
         echo "♢ Updating RedHat based system"
-        __update_needs_root yum -y upgrade
+        __update_eval_wrapper "yum upgrade" "yum -y upgrade" 1
     end
 
     if command -sq apt; and test (uname) = "Linux";
         echo "♢ Updating Debian based system"
-        __update_needs_root apt update
-        __update_needs_root apt -y upgrade
-        # __update_needs_root apt dist-upgrade
-        # __update_needs_root do-release-upgrade
+        __update_eval_wrapper "apt update" "" 1
+        __update_eval_wrapper "apt upgrade" "apt -y upgrade" 1
+        # __update_eval_wrapper "apt dist-upgrade"
+        # __update_eval_wrapper "do-release-upgrade"
     end
 
     if command -sq apt-get; and not command -sq apt;
         echo "♢ Updating Debian based system"
-        __update_needs_root apt-get update
-        __update_needs_root apt-get -y upgrade
+        __update_eval_wrapper "apt-get update" "" 1
+        __update_eval_wrapper "apt-get upgrade" "apt-get -y upgrade" 1
     end
 
     if command -sq freebsd-update;
         echo "♢ Updating freeBSD system"
-        freebsd-update fetch install
-        # freebsd-update -r 11.1-RELEASE upgrade
+        __update_eval_wrapper "freebsd-update fetch" "env PAGER=cat freebsd-update fetch" 1
+        __update_eval_wrapper "freebsd-update install" "" 1
+        # __update_eval_wrapper "freebsd-update -r 11.1-RELEASE upgrade"
     end
 
     if command -sq portsnap;
         echo "♢ Updating freeBSD ports tree"
-        __update_needs_root portsnap auto
+        __update_eval_wrapper "portsnap auto" "" 1
     end
 
     if command -sq pkg;
         echo "♢ Updating freeBSD packages"
-        __update_needs_root pkg -y upgrade
-        __update_needs_root pkg clean
-        __update_needs_root pkg audit -F
+        __update_eval_wrapper "pkg upgrade" "pkg -y upgrade" 1
+        __update_eval_wrapper "pkg clean" "" 1
+        __update_eval_wrapper "pkg audit -F" "" 1
         echo "♢ These following software can be upgraded with ports:"
         pkg version -l "<"
-        # portmaster -a
-        # portmaster -af # rebuild all
+        # __update_eval_wrapper "portmaster -a" "" 1
+        # __update_eval_wrapper "portmaster -af" "" 1 # rebuild all
     end
 
     if command -sq portmaster;
         echo "♢ Updating freeBSD portmaster"
-        __update_needs_root portmaster portmaster pkg --update-if-newer
+        __update_eval_wrapper "portmaster portmaster pkg --update-if-newer" "" 1
     end
 end
 alias __update_os __update_system
