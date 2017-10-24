@@ -42,9 +42,9 @@ alias __update_help __update_usage
 
 function __update_needs_root
     if test (id -u) -eq 0
-        eval "$argv"
+        eval $argv
     else if  command -sq sudo
-        sudo "$argv"
+        sudo $argv
     else
         printf "Command 'sudo' not found. Failed to execute 'sudo %s'" $argv
         return 1
@@ -98,7 +98,7 @@ function __update_system
         __update_needs_root pkg clean
         __update_needs_root pkg audit -F
         echo "♢ These following software can be upgraded with ports:"
-        __update_needs_root pkg version -l "<"
+        pkg version -l "<"
         # portmaster -a
         # portmaster -af # rebuild all
     end
