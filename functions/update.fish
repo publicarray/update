@@ -2,12 +2,6 @@ function update -d "Update OS and packages"
     set -l update_cmds system os mas mac-apps brew npm yarn pip python composer php apm atom gem ruby fish \
         dotfiles all packages usage help
 
-    set -l sudo false
-
-    if test (id -u) = 0
-        set -l sudo true
-    end
-
     if test -z "$argv"
         __update_usage $update_cmds
         return 1
@@ -46,32 +40,72 @@ function __update_usage
 end
 alias __update_help __update_usage
 
+function __update_needs_root
+    if test (id -u) -eq 0
+        eval "$argv"
+    else if  command -sq sudo
+        sudo "$argv"
+    else
+        printf "Command 'sudo' not found. Failed to execute 'sudo %s'" $argv
+        return 1
+    end
+end
+
 function __update_system
     if command -sq softwareupdate; and test (uname) = "Darwin";
         echo "♢ Updating macOS"
-        sudo softwareupdate -ia
+        __update_needs_root softwareupdate -ia
     end
 
     if command -sq dnf;
         echo "♢ Updating RedHat based system"
-        sudo dnf upgrade
+        __update_needs_root dnf -y upgrade
     end
 
     if command -sq yum; and not command -sq dnf;
         echo "♢ Updating RedHat based system"
-        sudo yum upgrade
+        __update_needs_root yum -y upgrade
     end
 
     if command -sq apt; and test (uname) = "Linux";
         echo "♢ Updating Debian based system"
-        sudo apt update
-        sudo apt upgrade
+        __update_needs_root apt update
+        __update_needs_root apt -y upgrade
+        # __update_needs_root apt dist-upgrade
+        # __update_needs_root do-release-upgrade
     end
 
     if command -sq apt-get; and not command -sq apt;
         echo "♢ Updating Debian based system"
-        sudo apt-get update
-        sudo apt-get upgrade
+        __update_needs_root apt-get update
+        __update_needs_root apt-get -y upgrade
+    end
+
+    if command -sq freebsd-update;
+        echo "♢ Updating freeBSD system"
+        freebsd-update fetch install
+        # freebsd-update -r 11.1-RELEASE upgrade
+    end
+
+    if command -sq portsnap;
+        echo "♢ Updating freeBSD ports tree"
+        __update_needs_root portsnap auto
+    end
+
+    if command -sq pkg;
+        echo "♢ Updating freeBSD packages"
+        __update_needs_root pkg -y upgrade
+        __update_needs_root pkg clean
+        __update_needs_root pkg audit -F
+        echo "♢ These following software can be upgraded with ports:"
+        __update_needs_root pkg version -l "<"
+        # portmaster -a
+        # portmaster -af # rebuild all
+    end
+
+    if command -sq portmaster;
+        echo "♢ Updating freeBSD portmaster"
+        __update_needs_root portmaster portmaster pkg --update-if-newer
     end
 end
 alias __update_os __update_system
@@ -105,7 +139,7 @@ end
 function __update_yarn
     if command -sq yarn;
         echo "♢ Updating yarn packages"
-        yarn global upgrade-interactive
+        yarn global upgrade-interactive --latest
         yarn global upgrade
     end
 end
