@@ -113,7 +113,7 @@ function __update_system
 
     if command -sq pkg;
         echo "♢ Updating freeBSD packages"
-        __update_eval_wrapper "pkg upgrade" "pkg -y upgrade" 1
+        __update_eval_wrapper "pkg upgrade" "" 1
         __update_eval_wrapper "pkg clean" "" 1
         __update_eval_wrapper "pkg audit -F" "" 1
         echo "♢ These following software can be upgraded with ports:"
