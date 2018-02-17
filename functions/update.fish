@@ -104,9 +104,9 @@ end
 
 function __update_yarn
     if command -sq yarn;
-        echo "♢ Updating yarn packages"
-        yarn global upgrade-interactive
-        yarn global upgrade
+        echo "♢ Updating yarn packages to latest version"
+        # yarn global upgrade-interactive --latest
+        yarn global upgrade --latest
     end
 end
 
