@@ -2,12 +2,6 @@ function update -d "Update OS and packages"
     set -l update_cmds system os mas mac-apps brew npm yarn pip python composer php apm atom gem ruby fish \
         dotfiles all packages usage help
 
-    set -l sudo false
-
-    if test (id -u) = 0
-        set -l sudo true
-    end
-
     if test -z "$argv"
         __update_usage $update_cmds
         return 1
