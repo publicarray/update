@@ -25,7 +25,9 @@ update [help|system|mas|brew|npm|yarn|pip|composer|apm|gem|fish|dotfiles|all|pac
 
 ## Example
 
-![demo](demo.gif)
+<p align="center">
+    <img width="840" src="demo.svg">
+</p>
 
 [travis-link]: https://travis-ci.org/publicarray/update
 [travis-badge]: https://img.shields.io/travis/publicarray/update.svg
