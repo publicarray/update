@@ -83,9 +83,9 @@ function __update_brew
         echo "♢ Updating Homebrew"
         brew update
         brew upgrade
+        # brew cask upgrade
         brew cleanup
         brew prune
-        brew cask cleanup
     end
 end
 
