@@ -10,7 +10,7 @@ Update OS and packages
 With [fisherman]
 
 ```
-fisher publicarray/update
+fisher add publicarray/update
 ```
 
 ## Usage
