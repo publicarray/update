@@ -6,5 +6,5 @@ before_install:
 script:
     - curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
     - fish -c "fisher add publicarray/update"
-    - fish -c "update --help"
+    - fish -c "update help"
     - fish -c "up os"
