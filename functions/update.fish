@@ -1,5 +1,5 @@
 function update -d "Update OS and packages"
-    set -l update_cmds system os mas mac-apps brew npm yarn pip python composer php apm atom gem ruby fish \
+    set -l update_cmds system os mas mac-apps brew cask npm yarn pip python composer php apm atom gem ruby fish \
         dotfiles all packages usage help
 
     if test -z "$argv"
@@ -76,16 +76,27 @@ function __update_mas
         mas upgrade
     end
 end
-alias __update_mac-apps __update_mas
+
+function __update_mac-apps
+    __update_mas
+    __update_cask
+end
 
 function __update_brew
     if command -sq brew;
         echo "♢ Updating Homebrew"
         brew update
         brew upgrade
-        # brew cask upgrade
         brew cleanup
         brew prune
+    end
+end
+
+function __update_cask
+    if command -sq brew;
+        echo "♢ Updating Homebrew Cask"
+        echo "♢ Note: This action may require entering a password"
+        brew cask upgrade
     end
 end
 
@@ -174,6 +185,7 @@ end
 
 function __update_packages
     __update_brew
+    __update_brew_cask
     __update_npm
     __update_yarn
     __update_pip
@@ -186,6 +198,7 @@ function __update_all
     __update_system
     __update_mas
     __update_brew
+    __update_brew_cask
     __update_npm
     __update_yarn
     __update_pip
