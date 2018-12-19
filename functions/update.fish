@@ -185,7 +185,7 @@ end
 
 function __update_packages
     __update_brew
-    __update_brew_cask
+    __update_cask
     __update_npm
     __update_yarn
     __update_pip
@@ -198,7 +198,7 @@ function __update_all
     __update_system
     __update_mas
     __update_brew
-    __update_brew_cask
+    __update_cask
     __update_npm
     __update_yarn
     __update_pip
