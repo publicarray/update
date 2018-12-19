@@ -102,14 +102,14 @@ end
 
 function __update_npm
     if command -sq npm;
-        echo "♢ Updating npm packages"
+        echo "♢ Updating global npm packages"
         npm update -g
     end
 end
 
 function __update_yarn
     if command -sq yarn;
-        echo "♢ Updating yarn packages to latest version"
+        echo "♢ Updating global yarn packages to latest version"
         # yarn global upgrade-interactive --latest
         yarn global upgrade --latest
     end
