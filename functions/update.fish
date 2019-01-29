@@ -88,7 +88,6 @@ function __update_brew
         brew update
         brew upgrade
         brew cleanup
-        brew prune
     end
 end
 
