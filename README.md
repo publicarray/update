@@ -1,7 +1,6 @@
 # update
 
 [![Build Status][travis-badge]][travis-link]
-[![Slack Room][slack-badge]][slack-link]
 
 Update OS and packages
 
@@ -31,7 +30,5 @@ update [help|system|mas|brew|npm|yarn|pip|composer|apm|gem|fish|dotfiles|all|pac
 
 [travis-link]: https://travis-ci.org/publicarray/update
 [travis-badge]: https://img.shields.io/travis/publicarray/update.svg
-[slack-link]: https://fisherman-wharf.herokuapp.com
-[slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
 [fisherman]: https://github.com/fisherman/fisherman
 
