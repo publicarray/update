@@ -4,9 +4,11 @@
 
 Update OS and packages
 
+*Also checkout [topgrade](https://github.com/r-darwish/topgrade) it does the same thing but better!*
+
 ## Install
 
-With [fisherman]
+With [fisher]
 
 ```
 fisher add publicarray/update
@@ -30,5 +32,5 @@ update [help|system|mas|brew|npm|yarn|pip|composer|apm|gem|fish|dotfiles|all|pac
 
 [travis-link]: https://travis-ci.org/publicarray/update
 [travis-badge]: https://img.shields.io/travis/publicarray/update.svg
-[fisherman]: https://github.com/fisherman/fisherman
+[fisher]: https://github.com/jorgebucaran/fisher
 
