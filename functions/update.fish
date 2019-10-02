@@ -46,6 +46,11 @@ function __update_system
         sudo softwareupdate -ia
     end
 
+    if command -sq pacman;
+        echo "♢ Updating Arch based system"
+        sudo packman -Su
+    end
+
     if command -sq dnf;
         echo "♢ Updating RedHat based system"
         sudo dnf upgrade
