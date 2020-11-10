@@ -162,8 +162,7 @@ function __update_fish
     if command -sq fish;
         echo "♢ Updating Fish packages"
         if  type -q fisher;
-            fisher self-update
-            fisher
+            fisher update
         end
 
         if type -q omf;
