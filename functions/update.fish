@@ -48,7 +48,7 @@ function __update_system
 
     if command -sq pacman;
         echo "♢ Updating Arch based system"
-        sudo packman -Su
+        sudo pacman -Syu
     end
 
     if command -sq dnf;
